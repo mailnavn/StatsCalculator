@@ -26,7 +26,7 @@ namespace StatsCalculator.BusinessLayer
         public double CalculateSum(double[] values)
         {
             double sum = 0;
-            for (int i = 0, j = values.Length - 1; i != j; i++, j--)
+            for (int i = 0, j = values.Length - 1; i < j; i++, j--)
             {
                 sum += values[i] + values[j];
             }
