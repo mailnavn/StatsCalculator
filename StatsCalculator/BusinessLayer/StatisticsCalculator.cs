@@ -25,6 +25,8 @@ namespace StatsCalculator.BusinessLayer
 
         public double CalculateSum(double[] values)
         {
+            //TODO: Need fixing. Logic error
+
             double sum = 0;
             for (int i = 0, j = values.Length - 1; i < j; i++, j--)
             {

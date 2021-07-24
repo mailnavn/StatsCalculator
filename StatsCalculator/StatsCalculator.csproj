@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Folder Include="DataLayer\" />
-    <Folder Include="UnitTests\" />
   </ItemGroup>
 
 </Project>

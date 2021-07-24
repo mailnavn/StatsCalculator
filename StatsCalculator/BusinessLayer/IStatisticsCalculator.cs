@@ -10,11 +10,13 @@ namespace StatsCalculator.BusinessLayer
     /// </summary>
     public interface IStatisticsCalculator
     {
-        double CalculateArithmeticMean(List<double> values);
+        double CalculateArithmeticMean(double[] values);
 
-        double CalculateStandardDeviation(List<double> values);
+        double CalculateStandardDeviation(double[] values);
 
-        double FrequencyOfNumbersInBinTen(List<double> values);
+        double FrequencyOfNumbersInBinTen(double[] values);
+
+        double CalculateSum(double[] values);
 
     }
 }
