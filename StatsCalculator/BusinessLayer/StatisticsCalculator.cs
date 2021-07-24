@@ -23,6 +23,13 @@ namespace StatsCalculator.BusinessLayer
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Calculates the sum of list of numbers rounding up to 10 decimal points with mid point rounding as away from zero
+        /// </summary>
+        /// <param name="values"></param>
+        /// <returns></returns>
+        
+        //TODO: Make the rounding up configurable ?
         public double CalculateSum(double[] values)
         {
             double sum = 0;

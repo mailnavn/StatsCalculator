@@ -58,7 +58,7 @@ namespace StatsCalculatorUnitTests
 
 
         /// <summary>
-        /// Test long list of numbers
+        /// Test when only one number is contained in the list
         [TestMethod]
         public void TestAddSumWithOnlyOneNumber()
         {
@@ -66,6 +66,21 @@ namespace StatsCalculatorUnitTests
             StatisticsCalculator cal = new StatisticsCalculator();
             var result = cal.CalculateSum(numbers.ToArray());
             Assert.AreEqual(1.357055324, result);
+        }
+
+
+
+        [TestMethod]
+        public void TestSumWithRoundUp()
+        {
+
+            // 1.99999999999 = 11 decimal points, 1.0000000001 10 decimal points
+            var numbers = new List<double> { 1.99999999999, 1.0000000001} ;
+            StatisticsCalculator cal = new StatisticsCalculator();
+            var result = cal.CalculateSum(numbers.ToArray());
+
+            // Actual result = 3.00000000009 (11 decimal points), Round up value = 3.0000000001
+            Assert.AreEqual(3.0000000001, result);
         }
 
 
