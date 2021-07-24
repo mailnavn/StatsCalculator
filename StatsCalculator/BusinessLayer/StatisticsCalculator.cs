@@ -25,8 +25,6 @@ namespace StatsCalculator.BusinessLayer
 
         public double CalculateSum(double[] values)
         {
-            //TODO: Need fixing. Logic error
-
             double sum = 0;
             for (int i = 0, j = values.Length - 1; i < j; i++, j--)
             {
@@ -36,7 +34,10 @@ namespace StatsCalculator.BusinessLayer
             if (values.Length % 2 != 0)
                 sum += values[values.Length / 2];
 
-            return sum;
+            // Rounding to 5 decimal places, closest to the away from zero 
+            // The Math.Round() in .Net 5 has considerable performance improvement 
+            return Math.Round(sum, 5, MidpointRounding.AwayFromZero);
         }
+
     }
 }
