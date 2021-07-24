@@ -34,9 +34,9 @@ namespace StatsCalculator.BusinessLayer
             if (values.Length % 2 != 0)
                 sum += values[values.Length / 2];
 
-            // Rounding to 5 decimal places, closest to the away from zero 
+            // Rounding to 10 decimal places, closest to the away from zero 
             // The Math.Round() in .Net 5 has considerable performance improvement 
-            return Math.Round(sum, 5, MidpointRounding.AwayFromZero);
+            return Math.Round(sum, 10, MidpointRounding.AwayFromZero);
         }
 
     }
