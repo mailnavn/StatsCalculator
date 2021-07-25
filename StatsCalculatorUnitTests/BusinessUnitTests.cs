@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StatsCalculator.BusinessLayer;
+using StatsCalculator.Common;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace StatsCalculatorUnitTests
 {
@@ -54,7 +56,6 @@ namespace StatsCalculatorUnitTests
             Assert.AreEqual(50344.72412237, result);
         }
 
-
         /// <summary>
         /// Test when only one number is contained in the list
         [TestMethod]
@@ -67,11 +68,9 @@ namespace StatsCalculatorUnitTests
         }
 
 
-
         [TestMethod]
         public void TestSumWithRoundUp()
         {
-
             // 1.99999999999 = 11 decimal points, 1.0000000001 10 decimal points
             var numbers = new List<double> { 1.99999999999, 1.0000000001 };
             StatisticsCalculator cal = new StatisticsCalculator();
@@ -79,6 +78,38 @@ namespace StatsCalculatorUnitTests
 
             // Actual result = 3.00000000009 (11 decimal points), Round up value = 3.0000000001
             Assert.AreEqual(3.0000000001, result);
+        }
+
+        [TestMethod]
+        public void TestCalculateArithmeticMean()
+        {
+            var numbers = new List<double> { 10.134234234342, 20.1223424, 30.34, 34.34343, 34.23423424234 };
+            StatisticsCalculator cal = new StatisticsCalculator();
+            var result = cal.CalculateArithmeticMean(numbers.ToArray());
+
+            Assert.AreEqual(25.83484817534, result);
+        }
+
+
+        [TestMethod]
+        public void TestCalculateArithmeticMeanNegativeNumbers()
+        {
+            var numbers = new List<double> { 10.134234234342, -20.1223424, 30.34, -34.34343, 34.23423424234 };
+            StatisticsCalculator cal = new StatisticsCalculator();
+            var result = cal.CalculateArithmeticMean(numbers.ToArray());
+
+            Assert.AreEqual(4.04853921534, result);
+        }
+
+
+        [TestMethod]
+        public void TestCalculateArithmeticMeanEmptyorNull()
+        {
+            var numbers = new List<double> { };
+            StatisticsCalculator cal = new StatisticsCalculator();
+
+            // Verify that expected exception 
+            Assert.ThrowsException<ApiException>(() => { cal.CalculateArithmeticMean(numbers.ToArray()); }, "Values cannot be empty");
         }
 
 
@@ -100,6 +131,7 @@ namespace StatsCalculatorUnitTests
             var result = cal.CalculateStandardDeviation(numbers.ToArray(), SDType.Population);
             Assert.AreEqual(1.0198039027, result);
         }
+
 
         [TestMethod]
         public void TestHistogramAndFrequencyOfNumbers()
