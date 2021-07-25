@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace StatsCalculator.Common
+﻿namespace StatsCalculator.Common
 {
     /// <summary>
     /// Product error codes in case mapping all errors in application to generic product codes

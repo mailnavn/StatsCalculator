@@ -1,8 +1,5 @@
 ﻿using StatsCalculator.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StatsCalculator.BusinessLayer
 {
@@ -21,15 +18,33 @@ namespace StatsCalculator.BusinessLayer
         }
 
         /// <summary>
-        /// Calculate the Sample Standard deviation for a given set of values
+        /// Calculate the population based Standard deviation for a given set of values
         /// </summary>
         /// <param name="values">Data samples/set</param>
-        /// <returns>Sample standard deviation</returns>
+        /// <returns>Population based standard deviation</returns>
+        public double CalculateStandardDeviation(double[] values, SDType sdType)
+        {
+            _ValidateInput(values);
+            var mean = CalculateArithmeticMean(values);
+            double result;
+            if (SDType.Population.ToString() == sdType.ToString())
+                result = _CalculateSumForVariance(values, mean) / values.Length;
+            else
+                result = _CalculateSumForVariance(values, mean) / (values.Length - 1);
+
+            return Math.Round(Math.Sqrt(result), 10, MidpointRounding.AwayFromZero);
+        }
+
+        /// <summary>
+        /// Calculate sample based standard deviation for the given set of values
+        /// </summary>
+        /// <param name="values">Data samples</param>
+        /// <returns>Sample based standard deviation</returns>
         public double CalculateSampleStandardDeviation(double[] values)
         {
             _ValidateInput(values);
             var mean = CalculateArithmeticMean(values);
-            var result = _SumForSDCalculation(values, mean) / values.Length;
+            var result = _CalculateSumForVariance(values, mean) / (values.Length - 1);
             return Math.Sqrt(result);
         }
 
@@ -43,7 +58,7 @@ namespace StatsCalculator.BusinessLayer
         /// </summary>
         /// <param name="values"></param>
         /// <returns></returns>
-        
+
         //TODO: Make the rounding up configurable ?
         public double CalculateSum(double[] values)
         {
@@ -61,6 +76,35 @@ namespace StatsCalculator.BusinessLayer
             return Math.Round(sum, 10, MidpointRounding.AwayFromZero);
         }
 
+        /// <summary>
+        /// Calculates the sum for variance calculation
+        /// </summary>
+        /// <param name="values"></param>
+        /// <param name="mean"></param>
+        /// <returns></returns>
+        private double _CalculateSumForVariance(double[] values, double mean)
+        {
+            double sum = 0;
+
+            // There are 2 pointers from starting and from the end to reduce the time complexity to o(N/2)
+            for (int i = 0, j = values.Length - 1; i < j; i++, j--)
+            {
+                var diff = values[i] - mean;
+                sum += diff * diff;
+
+                var diff_revOrder = values[j] - mean;
+                sum += diff_revOrder * diff_revOrder;
+            }
+
+            if (values.Length % 2 != 0)
+            {
+                var val = values[values.Length / 2];
+                var diff_mid = val - mean;
+                sum += diff_mid * diff_mid;
+            }
+
+            return Math.Round(sum, 10, MidpointRounding.AwayFromZero);
+        }
 
         /// <summary>
         /// validate input
@@ -71,35 +115,6 @@ namespace StatsCalculator.BusinessLayer
             if (values == null || values.Length == 0)
                 throw new ApiException($"Values cannot be empty", 405, ProductErrorCodes.INVALIDINPUT);
 
-        }
-
-        /// <summary>
-        /// Calculates the sum for standard deviation calculation
-        /// </summary>
-        /// <param name="values"></param>
-        /// <param name="mean"></param>
-        /// <returns></returns>
-        private double _SumForSDCalculation(double[] values, double mean)
-        {
-            double sum = 0;
-
-            // There are 2 pointers from starting and from the end to reduce the time complexity to o(N/2)
-            for (int i = 0, j = values.Length - 1; i < j; i++, j--)
-            {
-                var diff = values[i] - mean;
-                sum += (diff * diff);
-
-                var diff_revOrder = values[j] - mean;
-                sum += (diff * diff);
-
-                if (values.Length % 2 != 0)
-                {
-                    var val = values[values.Length / 2];
-                    var diff_mid = val - mean;
-                    sum += (diff_mid * diff_mid);
-                }
-            }
-            return Math.Round(sum, 10, MidpointRounding.AwayFromZero);
         }
 
     }
