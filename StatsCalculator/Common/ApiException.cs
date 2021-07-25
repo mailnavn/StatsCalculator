@@ -21,7 +21,6 @@ namespace StatsCalculator.Common
             }
         }
 
-
         /// <summary>
         /// constructor
         /// </summary>

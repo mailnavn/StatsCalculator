@@ -56,7 +56,7 @@ namespace StatsCalculator.BusinessLayer
         /// <param name="values">Data set</param>
         /// <param name="binBucketRange">The range of bucket, example 10 means 0 to <10, 10 to <20 </param>
         /// <returns>Dictionary of the histogram with key = ranges and value = list of numbers in the range. For example, for 0 to less than 10(in bins of 10), key= 0 values = (1.44, 2.34, 10.00), 3 </returns>
-        public Dictionary<long, Tuple<List<double>, long>> FrequencyOfNumbersInBinTen(double[] values, int binBucketRange)
+        public Dictionary<long, Tuple<List<double>, long>> GetHistogramAndFrequency(double[] values, int binBucketRange)
         {
             _ValidateInput(values);
             if (binBucketRange < 1)
@@ -64,15 +64,13 @@ namespace StatsCalculator.BusinessLayer
 
             for(int i=0; i < values.Length; i++)
             {
-                var modVal = values[i] % 10;
-                var intModVal = (int)Math.Truncate(modVal);
+                var divValue = values[i] / 10;
+                var intModVal = (int)Math.Truncate(divValue);
 
                 if (values[i] < binBucketRange)
                     _AddToHistogram(0, values[i]);
-                else if(modVal > intModVal)
-                    _AddToHistogram(intModVal + 1, values[i]);
                 else
-                    _AddToHistogram(intModVal, values[i]);
+                    _AddToHistogram(intModVal + 1, values[i]);
             }
             return _Histogram;
         }
@@ -144,8 +142,8 @@ namespace StatsCalculator.BusinessLayer
 
         private void _AddToHistogram(long key, double value)
         {
-            if (_Histogram[key] == null)
-                _Histogram[0] = Tuple.Create<List<double>, long>(new List<double> { value }, 0);
+            if (!_Histogram.ContainsKey(key))
+                _Histogram.Add(key, Tuple.Create<List<double>, long>(new List<double> { value }, 1));
             else
             {
                 var histogramValues = _Histogram[key];
