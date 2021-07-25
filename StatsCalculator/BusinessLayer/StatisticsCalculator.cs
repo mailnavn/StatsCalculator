@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StatsCalculator.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,14 +8,23 @@ namespace StatsCalculator.BusinessLayer
 {
     public class StatisticsCalculator : IStatisticsCalculator
     {
+
+        /// <summary>
+        /// Calculates the arithmetic mean and returns the value back
+        /// </summary>
+        /// <param name="values">Data set of values</param>
+        /// <returns>arithmetic mean</returns>
         public double CalculateArithmeticMean(double[] values)
         {
+            if (values == null || values.Length == 0)
+                throw new ApiException($"Values cannot be empty", 405, ProductErrorCodes.INVALIDINPUT);
 
-            throw new NotImplementedException();
+            return CalculateSum(values) / values.Length;
         }
 
         public double CalculateStandardDeviation(double[] values)
         {
+
             throw new NotImplementedException();
         }
 
