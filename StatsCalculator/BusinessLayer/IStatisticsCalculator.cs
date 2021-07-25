@@ -17,7 +17,7 @@
         /// </summary>
         /// <param name="values">Data set</param>
         /// <param name="sdType">Population or Sample type enum</param>
-        /// <returns></returns>
+        /// <returns>standare deviation value</returns>
         double CalculateStandardDeviation(double[] values, SDType sdType);
 
         double FrequencyOfNumbersInBinTen(double[] values);

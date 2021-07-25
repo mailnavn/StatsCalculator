@@ -92,7 +92,6 @@ namespace StatsCalculatorUnitTests
         }
 
 
-
         [TestMethod]
         public void TestCalculatePopulationStandardDeviation()
         {
@@ -101,7 +100,6 @@ namespace StatsCalculatorUnitTests
             var result = cal.CalculateStandardDeviation(numbers.ToArray(), SDType.Population);
             Assert.AreEqual(1.0198039027, result);
         }
-
 
 
         #region private properties

@@ -7,9 +7,9 @@ namespace StatsCalculator.BusinessLayer
     {
 
         /// <summary>
-        /// Calculates the arithmetic mean and returns the value back
+        /// Calculates the arithmetic mean for a given data set
         /// </summary>
-        /// <param name="values">Data set of values</param>
+        /// <param name="values">Data set</param>
         /// <returns>arithmetic mean</returns>
         public double CalculateArithmeticMean(double[] values)
         {
@@ -18,10 +18,11 @@ namespace StatsCalculator.BusinessLayer
         }
 
         /// <summary>
-        /// Calculate the population based Standard deviation for a given set of values
+        /// Calculates the standard deviation for a given data set
         /// </summary>
-        /// <param name="values">Data samples/set</param>
-        /// <returns>Population based standard deviation</returns>
+        /// <param name="values">Data set</param>
+        /// <param name="sdType">Population or Sample type enum</param>
+        /// <returns>standare deviation value</returns>
         public double CalculateStandardDeviation(double[] values, SDType sdType)
         {
             _ValidateInput(values);
@@ -43,8 +44,8 @@ namespace StatsCalculator.BusinessLayer
         public double CalculateSampleStandardDeviation(double[] values)
         {
             _ValidateInput(values);
-            var mean = CalculateArithmeticMean(values);
-            var result = _CalculateSumForVariance(values, mean) / (values.Length - 1);
+            var mean    = CalculateArithmeticMean(values);
+            var result  = _CalculateSumForVariance(values, mean) / (values.Length - 1);
             return Math.Sqrt(result);
         }
 
@@ -114,8 +115,6 @@ namespace StatsCalculator.BusinessLayer
         {
             if (values == null || values.Length == 0)
                 throw new ApiException($"Values cannot be empty", 405, ProductErrorCodes.INVALIDINPUT);
-
         }
-
     }
 }
