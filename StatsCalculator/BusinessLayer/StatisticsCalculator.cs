@@ -1,5 +1,6 @@
 ﻿using StatsCalculator.Common;
 using System;
+using System.Collections.Generic;
 
 namespace StatsCalculator.BusinessLayer
 {
@@ -49,9 +50,31 @@ namespace StatsCalculator.BusinessLayer
             return Math.Sqrt(result);
         }
 
-        public double FrequencyOfNumbersInBinTen(double[] values)
+        /// <summary>
+        /// Builds an histogram of the frequency of numbers in the data set provided based on the bucket value range.
+        /// </summary>
+        /// <param name="values">Data set</param>
+        /// <param name="binBucketRange">The range of bucket, example 10 means 0 to <10, 10 to <20 </param>
+        /// <returns>Dictionary of the histogram with key = ranges and value = list of numbers in the range. For example, for 0 to less than 10(in bins of 10), key= 0 values = (1.44, 2.34, 10.00), 3 </returns>
+        public Dictionary<long, Tuple<List<double>, long>> FrequencyOfNumbersInBinTen(double[] values, int binBucketRange)
         {
-            throw new NotImplementedException();
+            _ValidateInput(values);
+            if (binBucketRange < 1)
+                throw new ApiException($"The range '{binBucketRange}' is not valid", 405, ProductErrorCodes.INVALIDINPUT);
+
+            for(int i=0; i < values.Length; i++)
+            {
+                var modVal = values[i] % 10;
+                var intModVal = (int)Math.Truncate(modVal);
+
+                if (values[i] < binBucketRange)
+                    _AddToHistogram(0, values[i]);
+                else if(modVal > intModVal)
+                    _AddToHistogram(intModVal + 1, values[i]);
+                else
+                    _AddToHistogram(intModVal, values[i]);
+            }
+            return _Histogram;
         }
 
         /// <summary>
@@ -107,6 +130,7 @@ namespace StatsCalculator.BusinessLayer
             return Math.Round(sum, 10, MidpointRounding.AwayFromZero);
         }
 
+        #region private properties
         /// <summary>
         /// validate input
         /// </summary>
@@ -116,5 +140,25 @@ namespace StatsCalculator.BusinessLayer
             if (values == null || values.Length == 0)
                 throw new ApiException($"Values cannot be empty", 405, ProductErrorCodes.INVALIDINPUT);
         }
+
+
+        private void _AddToHistogram(long key, double value)
+        {
+            if (_Histogram[key] == null)
+                _Histogram[0] = Tuple.Create<List<double>, long>(new List<double> { value }, 0);
+            else
+            {
+                var histogramValues = _Histogram[key];
+                var listOfValues = histogramValues.Item1;
+                listOfValues.Add(value);
+                _Histogram[key] = Tuple.Create<List<double>, long>(listOfValues, listOfValues.Count);
+            }
+        }
+
+        /// <summary>
+        /// Histogram of data sets
+        /// </summary>
+        private Dictionary<long, Tuple<List<double>, long>> _Histogram = new();
+        #endregion
     }
 }

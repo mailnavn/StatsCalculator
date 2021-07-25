@@ -1,4 +1,7 @@
-﻿namespace StatsCalculator.BusinessLayer
+﻿using System;
+using System.Collections.Generic;
+
+namespace StatsCalculator.BusinessLayer
 {
     /// <summary>
     /// The interface contains various methods for calculating statistical data
@@ -20,7 +23,7 @@
         /// <returns>standare deviation value</returns>
         double CalculateStandardDeviation(double[] values, SDType sdType);
 
-        double FrequencyOfNumbersInBinTen(double[] values);
+        Dictionary<long, Tuple<List<double>, long>> FrequencyOfNumbersInBinTen(double[] values);
 
         double CalculateSum(double[] values);
 
