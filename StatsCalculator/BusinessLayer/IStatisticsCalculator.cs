@@ -12,7 +12,7 @@ namespace StatsCalculator.BusinessLayer
     {
         double CalculateArithmeticMean(double[] values);
 
-        double CalculateStandardDeviation(double[] values);
+        double CalculateSampleStandardDeviation(double[] values);
 
         double FrequencyOfNumbersInBinTen(double[] values);
 
