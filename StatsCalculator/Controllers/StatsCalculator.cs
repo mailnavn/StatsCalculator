@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StatsCalculator.BusinessLayer;
-using System.Threading.Tasks;
 using StatsCalculator.DataLayer;
 using System;
-using StatsCalculator.Common;
 using System.Collections.Generic;
 
 namespace StatsCalculator.Controllers
@@ -19,8 +17,8 @@ namespace StatsCalculator.Controllers
         /// <param name="statsCalculator">DI object, StatisticsCalculator</param>
         public StatsCalculator(IDataReader dataReader, IStatisticsCalculator statsCalculator)
         {
-            _dataReader             = dataReader;
-            _statisticsCalculator   = statsCalculator;
+            _dataReader = dataReader;
+            _statisticsCalculator = statsCalculator;
         }
 
         /// <summary>
@@ -37,7 +35,7 @@ namespace StatsCalculator.Controllers
                 var mean = _statisticsCalculator.CalculateArithmeticMean(data.Result.ToArray());
                 return Ok(mean);
             }
-            catch(AggregateException ex)
+            catch (AggregateException ex)
             {
                 return new ObjectResult(ex.InnerException.Message) { StatusCode = 500 };
             }
@@ -101,10 +99,10 @@ namespace StatsCalculator.Controllers
                 var response = new List<DataApiResponseHistogram>();
                 foreach (KeyValuePair<long, Tuple<List<double>, double>> keyValue in result)
                 {
-                    var range2 = keyValue.Key * bucketValueRange-1;
+                    var range2 = keyValue.Key * bucketValueRange - 1;
                     var range1 = keyValue.Key * bucketValueRange - bucketValueRange;
 
-                    response.Add(new DataApiResponseHistogram { Bucket = $"Bucket{range1}-{range2}", Frequency = keyValue.Value.Item2, Values = keyValue.Value.Item1 }); 
+                    response.Add(new DataApiResponseHistogram { Bucket = $"Bucket{range1}-{range2}", Frequency = keyValue.Value.Item2, Values = keyValue.Value.Item1 });
                 }
                 return Ok(response);
             }

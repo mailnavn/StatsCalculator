@@ -45,8 +45,8 @@ namespace StatsCalculator.BusinessLayer
         public double CalculateSampleStandardDeviation(double[] values)
         {
             _ValidateInput(values);
-            var mean    = CalculateArithmeticMean(values);
-            var result  = _CalculateSumForVariance(values, mean) / (values.Length - 1);
+            var mean = CalculateArithmeticMean(values);
+            var result = _CalculateSumForVariance(values, mean) / (values.Length - 1);
             return Math.Sqrt(result);
         }
 
@@ -62,7 +62,7 @@ namespace StatsCalculator.BusinessLayer
             if (binBucketRange < 1)
                 throw new ApiException($"The range '{binBucketRange}' is not valid", 405, ProductErrorCodes.INVALIDINPUT);
 
-            for(int i=0; i < values.Length; i++)
+            for (int i = 0; i < values.Length; i++)
             {
                 var divValue = values[i] / 10;
                 var intModVal = (int)Math.Truncate(divValue);
@@ -143,13 +143,13 @@ namespace StatsCalculator.BusinessLayer
         private void _AddToHistogram(long key, double value, double totalCountOfValues)
         {
             if (!_Histogram.ContainsKey(key))
-                _Histogram.Add(key, Tuple.Create<List<double>, double>(new List<double> { value }, 1/totalCountOfValues));
+                _Histogram.Add(key, Tuple.Create<List<double>, double>(new List<double> { value }, 1 / totalCountOfValues));
             else
             {
                 var histogramValues = _Histogram[key];
                 var listOfValues = histogramValues.Item1;
                 listOfValues.Add(value);
-                _Histogram[key] = Tuple.Create<List<double>, double>(listOfValues, (listOfValues.Count)/totalCountOfValues);
+                _Histogram[key] = Tuple.Create<List<double>, double>(listOfValues, (listOfValues.Count) / totalCountOfValues);
             }
         }
 

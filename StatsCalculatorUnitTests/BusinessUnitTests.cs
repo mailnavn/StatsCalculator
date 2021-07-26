@@ -2,7 +2,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StatsCalculator.BusinessLayer;
 using StatsCalculator.Common;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace StatsCalculatorUnitTests
 {
