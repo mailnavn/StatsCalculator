@@ -9,17 +9,15 @@ The Solution contains 2 projects <br>
 <br>
 The following APIs and provided calculating/Testing the ArithmeticMean, Standard Deviation (both population, sample based), Frequency in bin of 10 <br>
 
-**1. /api/StatsCalculator/CalculateMean **
+**1./api/StatsCalculator/CalculateMean **
 This api will need the the input as the full file path of the csv file located in the server. For example c:\testdata\SampleData.csv <br>
 **Expected Output**: The ArithmeticMean value <br>
-**2. ​/api​/StatsCalculator​/CalculateStandardDeviation **
+**2./api/StatsCalculator/CalculateStandardDeviation **
 This api will need 2 inputs. a) The full file path of the csv file in server b) string "population" or "sample" for the type of standard deviation <br>
 **Expected Output**: The standard Deviation Value<br>
-**3. ​/api​/StatsCalculator​/GetHistogramAndFrequency **
+**3./api/StatsCalculator/GetHistogramAndFrequency **
 This api will need 2 inputs. a) The full file path of the csv file in server b) The bin bucket value. For example, 10 will provide buckets of 0-9, 10-19, ... <br>
 **Expected Output**: The output will have bucket, frequency and the values in the bucket <br>
-<br>
-<br>
 <br>
 <br>
 **Running**
