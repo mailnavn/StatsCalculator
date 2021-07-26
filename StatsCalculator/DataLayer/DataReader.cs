@@ -11,36 +11,44 @@ namespace StatsCalculator.DataLayer
 {
     public class DataReader : IDataReader
     {
-        public List<double> ReadCSVData(string filePath)
+        /// <summary>
+        /// Reads the data from the local file system
+        /// </summary>
+        /// <param name="filePath">The absolute path of the csv file</param>
+        /// <returns>The list of data set</returns>
+        public Task<List<double>> ReadCSVData(string filePath)
         {
-            // Verify if the path exists
-            if (!File.Exists(filePath))
-                throw new ApiException($"The file {filePath} does not exist on disk", 404, ProductErrorCodes.FILEDOESNOTEXIST);
-
-            var valuesString = new List<string>();
-            var data = new List<double>();
-
-            try
+            return Task<double>.Run(() =>
             {
-                using StreamReader file = new(filePath);
-                string line = file.ReadLine();
+                // Verify if the path exists
+                if (!File.Exists(filePath))
+                    throw new ApiException($"The file {filePath} does not exist on disk", 404, ProductErrorCodes.FILEDOESNOTEXIST);
 
-                if (string.IsNullOrWhiteSpace(line))
-                    throw new ApiException($"The first line of csv file does not contain any data", 405, ProductErrorCodes.INVALIDINPUT);
+                var valuesString = new List<string>();
+                var data = new List<double>();
 
-                valuesString = line.Split(",").ToList();
+                try
+                {
+                    using StreamReader file = new(filePath);
+                    string line = file.ReadLine();
 
-                data = valuesString.Select(_ => double.TryParse(_, out double temp) ? temp : 0).ToList();
+                    if (string.IsNullOrWhiteSpace(line))
+                        throw new ApiException($"The first line of csv file does not contain any data", 405, ProductErrorCodes.INVALIDINPUT);
 
-            }
-            catch(Exception ex)
-            {
-                // Log error in log
+                    valuesString = line.Split(",").ToList();
 
-                // throw api exception wrapping the caught exception
-                throw new ApiException($"An exception occurred while reading the csv file {filePath}", 500, ProductErrorCodes.INTERNALSERVERERROR, ex);
-            }
-            return data;
+                    data = valuesString.Select(_ => double.TryParse(_, out double temp) ? temp : 0).ToList();
+
+                }
+                catch (Exception ex)
+                {
+                    // Log error in log
+
+                    // throw api exception wrapping the caught exception
+                    throw new ApiException($"An exception occurred while reading the csv file {filePath}", 500, ProductErrorCodes.INTERNALSERVERERROR, ex);
+                }
+                return data;
+            });
         }
     }
 }

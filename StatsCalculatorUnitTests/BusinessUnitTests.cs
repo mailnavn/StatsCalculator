@@ -145,17 +145,17 @@ namespace StatsCalculatorUnitTests
 
             // Verify for 0 to <10
             var resultLT10 = result[1];
-            Assert.AreEqual(1, resultLT10.Item1.Count);
+            Assert.AreEqual(0.14285714285714285, resultLT10.Item2);
 
             // Verify for 10 to <20
             var resultLT20GT10 = result[2];
-            Assert.AreEqual(2, resultLT20GT10.Item2);
+            Assert.AreEqual(0.2857142857142857, resultLT20GT10.Item2);
             Assert.IsTrue(resultLT20GT10.Item1.Contains(10));
             Assert.IsTrue(resultLT20GT10.Item1.Contains(10.123));
 
             // Verify for 20 to <30
             var resultLT30GT20 = result[3];
-            Assert.AreEqual(2, resultLT30GT20.Item2);
+            Assert.AreEqual(0.2857142857142857, resultLT30GT20.Item2);
             Assert.IsTrue(resultLT30GT20.Item1.Contains(20));
             Assert.IsTrue(resultLT30GT20.Item1.Contains(20.34));
 

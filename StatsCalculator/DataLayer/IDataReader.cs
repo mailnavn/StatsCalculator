@@ -7,6 +7,6 @@ namespace StatsCalculator.DataLayer
 {
     public interface IDataReader
     {
-        List<double> ReadCSVData(string filePath);
+        Task<List<double>> ReadCSVData(string filePath);
     }
 }

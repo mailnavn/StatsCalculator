@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using StatsCalculator.BusinessLayer;
+using StatsCalculator.DataLayer;
 
 namespace StatsCalculator
 {
@@ -25,6 +27,11 @@ namespace StatsCalculator
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "StatsCalculator", Version = "v1" });
             });
+
+            // Add our services
+            services.AddTransient<IDataReader, DataReader>();
+            services.AddTransient<IStatisticsCalculator, StatisticsCalculator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

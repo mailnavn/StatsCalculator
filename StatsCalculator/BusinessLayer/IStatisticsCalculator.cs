@@ -23,7 +23,7 @@ namespace StatsCalculator.BusinessLayer
         /// <returns>standare deviation value</returns>
         double CalculateStandardDeviation(double[] values, SDType sdType);
 
-        Dictionary<long, Tuple<List<double>, long>> GetHistogramAndFrequency(double[] values, int bucketRange);
+        Dictionary<long, Tuple<List<double>, double>> GetHistogramAndFrequency(double[] values, int bucketRange);
 
         double CalculateSum(double[] values);
 

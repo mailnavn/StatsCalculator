@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace StatsCalculator.DataLayer
 {
-    public class DataModel
+    public class DataApiResponse
     {
         public double Value { get; set; }
     }

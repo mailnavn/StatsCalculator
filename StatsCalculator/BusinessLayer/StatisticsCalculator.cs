@@ -55,8 +55,8 @@ namespace StatsCalculator.BusinessLayer
         /// </summary>
         /// <param name="values">Data set</param>
         /// <param name="binBucketRange">The range of bucket, example 10 means 0 to <10, 10 to <20 </param>
-        /// <returns>Dictionary of the histogram with key = ranges and value = list of numbers in the range. For example, for 0 to less than 10(in bins of 10), key= 1 values = (1.44, 2.34, 10.00), 3 </returns>
-        public Dictionary<long, Tuple<List<double>, long>> GetHistogramAndFrequency(double[] values, int binBucketRange)
+        /// <returns>Dictionary of the histogram with key = ranges and value = list of numbers in the range. For example, for 0 to less than 10(in bins of 10), key= 1 values = (1.44, 2.34, 10.00), 3/TotalNumber </returns>
+        public Dictionary<long, Tuple<List<double>, double>> GetHistogramAndFrequency(double[] values, int binBucketRange)
         {
             _ValidateInput(values);
             if (binBucketRange < 1)
@@ -68,9 +68,9 @@ namespace StatsCalculator.BusinessLayer
                 var intModVal = (int)Math.Truncate(divValue);
 
                 if (values[i] < binBucketRange)
-                    _AddToHistogram(1, values[i]);
+                    _AddToHistogram(1, values[i], values.Length);
                 else
-                    _AddToHistogram(intModVal + 1, values[i]);
+                    _AddToHistogram(intModVal + 1, values[i], values.Length);
             }
             return _Histogram;
         }
@@ -140,23 +140,23 @@ namespace StatsCalculator.BusinessLayer
         }
 
 
-        private void _AddToHistogram(long key, double value)
+        private void _AddToHistogram(long key, double value, double totalCountOfValues)
         {
             if (!_Histogram.ContainsKey(key))
-                _Histogram.Add(key, Tuple.Create<List<double>, long>(new List<double> { value }, 1));
+                _Histogram.Add(key, Tuple.Create<List<double>, double>(new List<double> { value }, 1/totalCountOfValues));
             else
             {
                 var histogramValues = _Histogram[key];
                 var listOfValues = histogramValues.Item1;
                 listOfValues.Add(value);
-                _Histogram[key] = Tuple.Create<List<double>, long>(listOfValues, listOfValues.Count);
+                _Histogram[key] = Tuple.Create<List<double>, double>(listOfValues, (listOfValues.Count)/totalCountOfValues);
             }
         }
 
         /// <summary>
         /// Histogram of data sets
         /// </summary>
-        private Dictionary<long, Tuple<List<double>, long>> _Histogram = new();
+        private Dictionary<long, Tuple<List<double>, double>> _Histogram = new();
         #endregion
     }
 }
