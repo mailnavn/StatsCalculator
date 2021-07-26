@@ -10,12 +10,12 @@
         /// </summary>
         #region 100-200 
         public static int INVALIDINPUT = 100;
+        public static int FILEDOESNOTEXIST = 101;
         #endregion
 
 
-
         #region 300-400 Generic Errors
-        public static int INTERNALSERVERERROR = 400;
+        public static int INTERNALSERVERERROR = 500;
         #endregion
 
     }

@@ -55,7 +55,7 @@ namespace StatsCalculator.BusinessLayer
         /// </summary>
         /// <param name="values">Data set</param>
         /// <param name="binBucketRange">The range of bucket, example 10 means 0 to <10, 10 to <20 </param>
-        /// <returns>Dictionary of the histogram with key = ranges and value = list of numbers in the range. For example, for 0 to less than 10(in bins of 10), key= 0 values = (1.44, 2.34, 10.00), 3 </returns>
+        /// <returns>Dictionary of the histogram with key = ranges and value = list of numbers in the range. For example, for 0 to less than 10(in bins of 10), key= 1 values = (1.44, 2.34, 10.00), 3 </returns>
         public Dictionary<long, Tuple<List<double>, long>> GetHistogramAndFrequency(double[] values, int binBucketRange)
         {
             _ValidateInput(values);
@@ -68,7 +68,7 @@ namespace StatsCalculator.BusinessLayer
                 var intModVal = (int)Math.Truncate(divValue);
 
                 if (values[i] < binBucketRange)
-                    _AddToHistogram(0, values[i]);
+                    _AddToHistogram(1, values[i]);
                 else
                     _AddToHistogram(intModVal + 1, values[i]);
             }
